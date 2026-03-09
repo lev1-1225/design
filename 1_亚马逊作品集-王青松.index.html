@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>亚马逊设计师作品集</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #ffffff;
+  color: #222;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+header {
+  margin: 60px 0 40px;
+  text-align: center;
+}
+h1 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.subtitle {
+  font-size: 14px;
+  color: #666;
+}
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 60px;
+}
+.gallery img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+  object-fit: cover;
+  transition: transform 0.2s;
+  cursor: zoom-in;
+}
+.gallery img:hover {
+  transform: scale(1.02);
+}
+/* 放大遮罩层：强制居中容器 */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  display: none;
+  z-index: 9999;
+  cursor: default;
+}
+/* 图片容器：核心修复居中 */
+.lightbox-img-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  transform-origin: center center;
+  transition: transform 0.2s ease;
+  cursor: grab;
+}
+.lightbox-img-container.grabbing {
+  cursor: grabbing;
+}
+.lightbox-img-container img {
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  border-radius: 6px;
+  display: block;
+}
+/* 缩放提示 */
+.scale-tip {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255,255,255,0.9);
+  color: #333;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 10000;
+}
+/* 操作提示 */
+.operation-tip {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.8);
+  color: #333;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  z-index: 10000;
+}
+.video-section {
+  margin: 40px 0;
+}
+.video-section h2 {
+  font-size: 16px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+video {
+  width: 100%;
+  max-width: 800px;
+  display: block;
+  margin: 0 auto 30px;
+  border-radius: 6px;
+}
+footer {
+  text-align: center;
+  padding: 40px 0;
+  font-size: 12px;
+  color: #999;
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>亚马逊设计师作品集</h1>
+  <div class="subtitle">Amazon Listing Design & A+ Content</div>
+</header>
+
+<div class="gallery">
+  <!-- 替换成你的图片文件名 -->
+  <img src="图片01.jpg" alt="亚马逊设计作品1" onclick="openLightbox(this.src)">
+  <img src="图片02.jpg" alt="亚马逊设计作品2" onclick="openLightbox(this.src)">
+  <img src="图片03.jpg" alt="亚马逊设计作品3" onclick="openLightbox(this.src)">
+</div>
+
+<!-- 图片放大层 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-img-container" id="imgContainer">
+    <img id="lightbox-img" src="" alt="放大的作品">
+  </div>
+  <div class="scale-tip" id="scaleTip">50%</div>
+  <div class="operation-tip">滚轮缩放 | 鼠标拖拽移动 | ESC关闭</div>
+</div>
+
+<div class="video-section">
+  <h2>视频作品</h2>
+
+  <!-- 视频1 → 点开也能全屏、居中、放大查看 -->
+  <video 
+    controls 
+    preload="metadata"
+    style="width:100%; max-width:900px; border-radius:8px; display:block; margin:0 auto;"
+    onclick="openLightbox(this.src)">
+    <source src="视频01.mp4" type="video/mp4">
+  </video>
+
+</div>
+
+<footer>
+  © 2026 你的名字 | 亚马逊设计师
+</footer>
+
+<script>
+// 核心变量
+const lightbox = document.getElementById('lightbox');
+const imgContainer = document.getElementById('imgContainer');
+const lightboxImg = document.getElementById('lightbox-img');
+const scaleTip = document.getElementById('scaleTip');
+
+// 缩放配置
+let currentScale = 0.5;
+const scaleStep = 0.1;
+const minScale = 0.1;
+const maxScale = 3.0;
+
+// 拖拽变量
+let isDragging = false;
+let startX = 0;
+let startY = 0;
+let offsetX = 0; // 替换原translateX，仅记录拖拽偏移
+let offsetY = 0;
+
+// 打开放大层（核心修复居中）
+function openLightbox(imgSrc) {
+  // 重置所有状态
+  currentScale = 0.5;
+  offsetX = 0;
+  offsetY = 0;
+  
+  // 清空旧图片，避免加载延迟导致的位置错误
+  lightboxImg.src = "";
+  // 强制重置容器位置
+  imgContainer.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
+  scaleTip.textContent = `${Math.round(currentScale * 100)}%`;
+  
+  // 加载新图片（确保加载完成后再显示）
+  lightboxImg.onload = function() {
+    // 图片加载完成后，重新确认居中
+    resetToCenter();
+  };
+  lightboxImg.src = imgSrc;
+  
+  // 显示放大层
+  lightbox.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+// 重置图片到屏幕正中心
+function resetToCenter() {
+  offsetX = 0;
+  offsetY = 0;
+  imgContainer.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(${currentScale})`;
+}
+
+// 更新图片位置和缩放
+function updateImgTransform() {
+  imgContainer.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(${currentScale})`;
+}
+
+// 滚轮缩放（修复居中缩放）
+function handleWheel(e) {
+  e.preventDefault();
+  
+  const mouseX = e.clientX;
+  const mouseY = e.clientY;
+  const delta = e.deltaY > 0 ? -scaleStep : scaleStep;
+  const newScale = Math.max(minScale, Math.min(maxScale, currentScale + delta));
+  
+  // 计算缩放偏移（保证鼠标点位置不变，同时保留居中基准）
+  const scaleRatio = newScale / currentScale;
+  offsetX = (mouseX - (mouseX - (window.innerWidth/2 + offsetX)) * scaleRatio) - window.innerWidth/2;
+  offsetY = (mouseY - (mouseY - (window.innerHeight/2 + offsetY)) * scaleRatio) - window.innerHeight/2;
+  
+  currentScale = newScale;
+  scaleTip.textContent = `${Math.round(currentScale * 100)}%`;
+  updateImgTransform();
+}
+
+// 拖拽开始
+function handleDragStart(e) {
+  isDragging = true;
+  imgContainer.classList.add('grabbing');
+  startX = e.clientX - offsetX;
+  startY = e.clientY - offsetY;
+  e.preventDefault();
+}
+
+// 拖拽中
+function handleDragging(e) {
+  if (!isDragging) return;
+  offsetX = e.clientX - startX;
+  offsetY = e.clientY - startY;
+  updateImgTransform();
+}
+
+// 拖拽结束
+function handleDragEnd() {
+  isDragging = false;
+  imgContainer.classList.remove('grabbing');
+}
+
+// 关闭放大层
+function closeLightbox() {
+  lightbox.style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+
+// 绑定事件
+imgContainer.addEventListener('mousedown', handleDragStart);
+document.addEventListener('mousemove', handleDragging);
+document.addEventListener('mouseup', handleDragEnd);
+lightbox.addEventListener('wheel', handleWheel);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});
+imgContainer.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+
+// 窗口大小变化时，重置图片居中
+window.addEventListener('resize', resetToCenter);
+</script>
+</body>
+</html>
