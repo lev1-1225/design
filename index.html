@@ -101,7 +101,7 @@ h1 {
   color: #222;
 }
 
-/* 图片网格 - 核心修改：1:1比例 */
+/* 图片网格 - 1:1正方形 */
 .img-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -109,12 +109,15 @@ h1 {
 }
 .img-card {
   position: relative;
-  /* 核心修改：padding-top改为100%，实现1:1正方形 */
-  padding-top: 100%; 
+  padding-top: 100%; /* 1:1正方形核心 */
   border-radius: 8px;
   overflow: hidden;
   cursor: zoom-in;
   transition: transform 0.2s;
+}
+/* 单独给 20-30 用 2.2:1 横版 */
+.img-card.ratio-2-2 {
+  padding-top: 45.45% !important; /* 宽:高 = 2.2:1 */
 }
 .img-card:hover {
   transform: translateY(-3px);
@@ -126,8 +129,7 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  /* 保持图片比例，裁剪多余部分，居中显示 */
-  object-fit: cover; 
+  object-fit: cover;
   display: block;
   loading: "lazy";
 }
@@ -248,7 +250,6 @@ footer {
   .nav-wrapper, .product-group, .video-section {
     padding: 15px;
   }
-  /* 手机端图片卡片稍小，仍保持1:1 */
   .img-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
@@ -278,7 +279,7 @@ footer {
 
 <!-- 产品分组容器 -->
 <div class="product-groups">
-  <!-- 1. 台灯产品组（10张1:1显示） -->
+  <!-- 1. 台灯产品组（10张TDH9系列） -->
   <div class="product-group" data-product="台灯">
     <h3 class="product-group-title">台灯</h3>
     <div class="img-grid">
@@ -325,17 +326,213 @@ footer {
     </div>
   </div>
 
-  <!-- 2. 落地灯产品组 -->
+  <!-- 2. 落地灯产品组（50张LDT02E系列，20-30为2.2:1横版） -->
   <div class="product-group" data-product="落地灯">
     <h3 class="product-group-title">落地灯</h3>
     <div class="img-grid">
       <div class="img-card">
-        <img src="floor_lamp01.jpg" alt="落地灯-设计图01">
-        <div class="img-label">落地灯-设计图01</div>
+        <img src="LDT02E (1).png" alt="落地灯-LDT02E-01">
+        <div class="img-label">落地灯-LDT02E-01</div>
       </div>
       <div class="img-card">
-        <img src="floor_lamp02.jpg" alt="落地灯-设计图02">
-        <div class="img-label">落地灯-设计图02</div>
+        <img src="LDT02E (2).png" alt="落地灯-LDT02E-02">
+        <div class="img-label">落地灯-LDT02E-02</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (3).png" alt="落地灯-LDT02E-03">
+        <div class="img-label">落地灯-LDT02E-03</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (4).png" alt="落地灯-LDT02E-04">
+        <div class="img-label">落地灯-LDT02E-04</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (5).png" alt="落地灯-LDT02E-05">
+        <div class="img-label">落地灯-LDT02E-05</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (6).png" alt="落地灯-LDT02E-06">
+        <div class="img-label">落地灯-LDT02E-06</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (7).png" alt="落地灯-LDT02E-07">
+        <div class="img-label">落地灯-LDT02E-07</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (8).png" alt="落地灯-LDT02E-08">
+        <div class="img-label">落地灯-LDT02E-08</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (9).png" alt="落地灯-LDT02E-09">
+        <div class="img-label">落地灯-LDT02E-09</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (10).png" alt="落地灯-LDT02E-10">
+        <div class="img-label">落地灯-LDT02E-10</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (11).png" alt="落地灯-LDT02E-11">
+        <div class="img-label">落地灯-LDT02E-11</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (12).png" alt="落地灯-LDT02E-12">
+        <div class="img-label">落地灯-LDT02E-12</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (13).png" alt="落地灯-LDT02E-13">
+        <div class="img-label">落地灯-LDT02E-13</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (14).png" alt="落地灯-LDT02E-14">
+        <div class="img-label">落地灯-LDT02E-14</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (15).png" alt="落地灯-LDT02E-15">
+        <div class="img-label">落地灯-LDT02E-15</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (16).png" alt="落地灯-LDT02E-16">
+        <div class="img-label">落地灯-LDT02E-16</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (17).png" alt="落地灯-LDT02E-17">
+        <div class="img-label">落地灯-LDT02E-17</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (18).png" alt="落地灯-LDT02E-18">
+        <div class="img-label">落地灯-LDT02E-18</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (19).png" alt="落地灯-LDT02E-19">
+        <div class="img-label">落地灯-LDT02E-19</div>
+      </div>
+
+      <!-- 20～30 改为 2.2:1 横版 -->
+      <div class="img-card ratio-2-2">
+        <img src="LDT02E (20).png" alt="落地灯-LDT02E-20">
+        <div class="img-label">落地灯-LDT02E-20</div>
+      </div>
+      <div class="img-card ratio-2-2">
+        <img src="LDT02E (21).png" alt="落地灯-LDT02E-21">
+        <div class="img-label">落地灯-LDT02E-21</div>
+      </div>
+      <div class="img-card ratio-2-2">
+        <img src="LDT02E (22).png" alt="落地灯-LDT02E-22">
+        <div class="img-label">落地灯-LDT02E-22</div>
+      </div>
+      <div class="img-card ratio-2-2">
+        <img src="LDT02E (23).png" alt="落地灯-LDT02E-23">
+        <div class="img-label">落地灯-LDT02E-23</div>
+      </div>
+      <div class="img-card ratio-2-2">
+        <img src="LDT02E (24).png" alt="落地灯-LDT02E-24">
+        <div class="img-label">落地灯-LDT02E-24</div>
+      </div>
+      <div class="img-card ratio-2-2">
+        <img src="LDT02E (25).png" alt="落地灯-LDT02E-25">
+        <div class="img-label">落地灯-LDT02E-25</div>
+      </div>
+      <div class="img-card ratio-2-2">
+        <img src="LDT02E (26).png" alt="落地灯-LDT02E-26">
+        <div class="img-label">落地灯-LDT02E-26</div>
+      </div>
+      <div class="img-card ratio-2-2">
+        <img src="LDT02E (27).png" alt="落地灯-LDT02E-27">
+        <div class="img-label">落地灯-LDT02E-27</div>
+      </div>
+      <div class="img-card ratio-2-2">
+        <img src="LDT02E (28).png" alt="落地灯-LDT02E-28">
+        <div class="img-label">落地灯-LDT02E-28</div>
+      </div>
+      <div class="img-card ratio-2-2">
+        <img src="LDT02E (29).png" alt="落地灯-LDT02E-29">
+        <div class="img-label">落地灯-LDT02E-29</div>
+      </div>
+      <div class="img-card ratio-2-2">
+        <img src="LDT02E (30).png" alt="落地灯-LDT02E-30">
+        <div class="img-label">落地灯-LDT02E-30</div>
+      </div>
+
+      <!-- 31～50 恢复 1:1 -->
+      <div class="img-card">
+        <img src="LDT02E (31).png" alt="落地灯-LDT02E-31">
+        <div class="img-label">落地灯-LDT02E-31</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (32).png" alt="落地灯-LDT02E-32">
+        <div class="img-label">落地灯-LDT02E-32</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (33).png" alt="落地灯-LDT02E-33">
+        <div class="img-label">落地灯-LDT02E-33</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (34).png" alt="落地灯-LDT02E-34">
+        <div class="img-label">落地灯-LDT02E-34</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (35).png" alt="落地灯-LDT02E-35">
+        <div class="img-label">落地灯-LDT02E-35</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (36).png" alt="落地灯-LDT02E-36">
+        <div class="img-label">落地灯-LDT02E-36</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (37).png" alt="落地灯-LDT02E-37">
+        <div class="img-label">落地灯-LDT02E-37</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (38).png" alt="落地灯-LDT02E-38">
+        <div class="img-label">落地灯-LDT02E-38</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (39).png" alt="落地灯-LDT02E-39">
+        <div class="img-label">落地灯-LDT02E-39</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (40).png" alt="落地灯-LDT02E-40">
+        <div class="img-label">落地灯-LDT02E-40</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (41).png" alt="落地灯-LDT02E-41">
+        <div class="img-label">落地灯-LDT02E-41</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (42).png" alt="落地灯-LDT02E-42">
+        <div class="img-label">落地灯-LDT02E-42</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (43).png" alt="落地灯-LDT02E-43">
+        <div class="img-label">落地灯-LDT02E-43</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (44).png" alt="落地灯-LDT02E-44">
+        <div class="img-label">落地灯-LDT02E-44</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (45).png" alt="落地灯-LDT02E-45">
+        <div class="img-label">落地灯-LDT02E-45</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (46).png" alt="落地灯-LDT02E-46">
+        <div class="img-label">落地灯-LDT02E-46</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (47).png" alt="落地灯-LDT02E-47">
+        <div class="img-label">落地灯-LDT02E-47</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (48).png" alt="落地灯-LDT02E-48">
+        <div class="img-label">落地灯-LDT02E-48</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (49).png" alt="落地灯-LDT02E-49">
+        <div class="img-label">落地灯-LDT02E-49</div>
+      </div>
+      <div class="img-card">
+        <img src="LDT02E (50).png" alt="落地灯-LDT02E-50">
+        <div class="img-label">落地灯-LDT02E-50</div>
       </div>
     </div>
   </div>
